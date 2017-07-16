@@ -16,7 +16,17 @@ namespace Language.Tests
             var pack = new Mock<ILanguagePackService>();
 
             var service = new Translator(lang.Object, pack.Object);
-            Assert.AreEqual("I am a test", service.Translate("", "I am a test"));
+            Assert.AreEqual("I am a test", service.Translate("I am a test"));
+        }
+
+        [TestMethod]
+        public void Given_no_language_packs_when_I_translate_a_key_with_an_area_in_it_I_expect_only_the_last_section_back()
+        {
+            var lang = new Mock<ILanguage>();
+            var pack = new Mock<ILanguagePackService>();
+
+            var service = new Translator(lang.Object, pack.Object);
+            Assert.AreEqual("I am a test", service.Translate("Area1.SubArea2.I am a test"));
         }
 
         [TestMethod]
@@ -38,7 +48,7 @@ namespace Language.Tests
                 });
 
             var service = new Translator(lang.Object, languagePacks.Object);
-            Assert.AreEqual("translated", service.Translate("", "I am a test"));
+            Assert.AreEqual("translated", service.Translate("I am a test"));
 
         }
 
@@ -64,7 +74,7 @@ namespace Language.Tests
                 });
 
             var service = new Translator(lang.Object, languagePacks.Object);
-            Assert.AreEqual("translated", service.Translate("", "I am a test"));
+            Assert.AreEqual("translated", service.Translate("I am a test"));
 
         }
     }

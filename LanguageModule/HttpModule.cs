@@ -1,31 +1,33 @@
-﻿using System;
+﻿using Civica.C360.Language;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.SessionState;
 using System.Web.UI;
 
 namespace LanguageModule
 {
-    public class HttpModule : IHttpModule
+    public class HttpModule : IHttpModule, IRequiresSessionState
     {
         public void Dispose() { }
         public void Init(HttpApplication context)
         {
-            context.PostRequestHandlerExecute += (sender, e) =>
+            context.PreRequestHandlerExecute += (sender, e) =>
             {
                 var app = sender as HttpApplication;
                 if (app != null)
                 {
                     var requestContext = app.Context;
-                    if(requestContext!=null && requestContext.Response.ContentType == "text/html")
+                    if (requestContext != null && requestContext.Response.ContentType == "text/html")
                     {
-                        //requestContext.Response.Filter = new ResponseStream(requestContext.Response.Filter);
+                        requestContext.Response.Filter = new ResponseStream(requestContext.Response.Filter, requestContext.Response.ContentEncoding, new Translator(new Language(HttpContext.Current), new FileLanguagePackService()));
                     }
                 }
-
             };
+
         }
     }
 }

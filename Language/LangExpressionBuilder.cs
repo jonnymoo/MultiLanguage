@@ -22,9 +22,9 @@ namespace Civica.C360.Language
             return new CodeMethodInvokeExpression(thisType, "Translate", new CodeExpression[] { expression });
         }
 
-        public static string Translate(string expression)
+        public static string Translate(string key)
         {
-            return new Translator(new Language(HttpContext.Current), new FileLanguagePackService()).Translate("", expression);
+            return new Translator(new Language(HttpContext.Current), new FileLanguagePackService()).Translate(key);
         }
 
         public override bool SupportsEvaluate

@@ -24,33 +24,33 @@ namespace Civica.C360.Language
         
         
         /// <summary>
-        /// Translate a phrase into the current language
+        /// Translate a key into the current language
         /// </summary>
-        /// <param name="area"></param>
-        /// <param name="from"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public string Translate(string area, string from)
+        public string Translate(string key)
         {
 
             // Check if the word is in the languages langauge pack
 
             var pack = LangaugePackService.GetLanguagePack(Lang.GetCurrentLanguage());
 
-            if(pack != null && pack.ContainsKey(from))
+            if(pack != null && pack.ContainsKey(key))
             {
-                return pack[from];
+                return pack[key];
             }
 
 
             // Is it in the english one?
             var english = LangaugePackService.GetLanguagePack("en");
 
-            if (english != null && english.ContainsKey(from))
+            if (english != null && english.ContainsKey(key))
             {
-                return english[from];
+                return english[key];
             }
 
-            return from;
+            // The default translation is the last section of the key
+            return key.Substring(key.LastIndexOf(".") + 1);
         }
     }
 }

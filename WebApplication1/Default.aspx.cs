@@ -13,5 +13,11 @@ namespace WebApplication1
         {
 
         }
+
+       
+        protected void Welsh_Click(object sender, EventArgs e)
+        {
+            Session["lang"] = "cy-GB";
+        }
     }
 }

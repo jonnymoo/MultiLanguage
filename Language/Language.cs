@@ -18,9 +18,9 @@ namespace Civica.C360.Language
 
         public string GetCurrentLanguage()
         {
-            if(current!=null && current.Session!=null && current.Session["Lang"]!=null)
+            if(current!=null && current.Session!=null && current.Session["lang"]!=null)
             {
-                return current.Session["Lang"].ToString();
+                return current.Session["lang"].ToString();
             }
             else
             {
