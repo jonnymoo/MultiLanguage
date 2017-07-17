@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Civica.C360.Language;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,7 +18,12 @@ namespace WebApplication1
        
         protected void Welsh_Click(object sender, EventArgs e)
         {
-            Session["lang"] = "cy-GB";
+            new Language(HttpContext.Current).ChangeLanguage("cy-GB");
+        }
+
+        protected void English_Click(object sender, EventArgs e)
+        {
+            new Language(HttpContext.Current).ChangeLanguage("en-GB");
         }
     }
 }

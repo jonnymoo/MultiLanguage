@@ -9,5 +9,7 @@ namespace Civica.C360.Language
     public interface ILanguage
     {
         string GetCurrentLanguage();
+        void ChangeLanguage(string language);
+
     }
 }

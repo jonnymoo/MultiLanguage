@@ -12,11 +12,12 @@
     <br />
     
      <%=new Civica.C360.Language.Translator(new Civica.C360.Language.Language(HttpContext.Current), new Civica.C360.Language.FileLanguagePackService()).Translate("ABC") %>
-     <asp:Literal runat="server" Text="<%$ Lang:ABC%>" /> 
+<%--     <asp:Literal runat="server" Text="<%$ Lang:ABC%>" /> 
 
-     <asp:Label ID="Label3" runat="server" Text="<%$ Lang:Welsh Text %>"></asp:Label>
+     <asp:Label ID="Label3" runat="server" Text="<%$ Lang:Welsh Text %>"></asp:Label>--%>
      <p>%%Civica.Lang:MyTest.I am some text that will be different in welsh%%</p>
 
 
     <asp:Button ID="Welsh" RunAt="server" Text="Welsh" OnClick="Welsh_Click" />
+    <asp:Button ID="English" RunAt="server" Text="English" OnClick="English_Click" />
 </asp:Content>

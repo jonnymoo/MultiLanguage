@@ -16,11 +16,25 @@ namespace Civica.C360.Language
             this.current = current;
         }
 
+        public void ChangeLanguage(string language)
+        {
+            var langCookie = new HttpCookie("Civica.Lang");
+            langCookie.Value = "cy-GB";
+            langCookie.HttpOnly = true;
+            langCookie.Expires = DateTime.MinValue;
+            langCookie.Value = language;
+            current.Response.Cookies.Add(langCookie);
+        }
+
         public string GetCurrentLanguage()
         {
-            if(current!=null && current.Session!=null && current.Session["lang"]!=null)
+            if (current != null && current.Response.Cookies != null && current.Response.Cookies["Civica.Lang"] != null && current.Response.Cookies["Civica.Lang"].Value != null)
             {
-                return current.Session["lang"].ToString();
+                return current.Response.Cookies["Civica.Lang"].Value;
+            }
+            else if (current!=null && current.Request.Cookies!=null && current.Request.Cookies["Civica.Lang"]!=null && current.Request.Cookies["Civica.Lang"].Value != null)
+            {
+                return current.Request.Cookies["Civica.Lang"].Value;
             }
             else
             {
