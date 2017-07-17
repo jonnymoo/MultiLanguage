@@ -19,7 +19,7 @@ namespace Civica.C360.Language
                 var lines = File.ReadAllLines(file);
 
                 // The file name is the language string e.g. cy.lang
-                files.Add(Path.GetFileName(file).Split('.')[0], lines.ToDictionary(x => x.Split('=')[0].Trim(), x => x.Split('=')[1].Trim()));
+                files.Add(Path.GetFileName(file).Split('.')[0], lines.ToDictionary(x => x.Split('=')[0].Trim(), x => x.Substring(x.IndexOf("=")+1).Trim()));
             }
         }
         public Dictionary<string, string> GetLanguagePack(string language)
