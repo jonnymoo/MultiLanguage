@@ -1,2 +1,2 @@
-ABC=XYZ
+Language.SetLanguage=<a href="/" onClick='document.cookie="Civica.Lang=en;";'>English</a>
 MyTest.I am some text that will be different in welsh=This text has been swapped in
