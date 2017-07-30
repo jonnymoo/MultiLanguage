@@ -18,12 +18,12 @@ namespace WebApplication1
        
         protected void Welsh_Click(object sender, EventArgs e)
         {
-            new Language(HttpContext.Current).ChangeLanguage("cy-GB");
+            new Language(HttpContext.Current).CurrentLanguage = "cy-GB";
         }
 
         protected void English_Click(object sender, EventArgs e)
         {
-            new Language(HttpContext.Current).ChangeLanguage("en-GB");
+            new Language(HttpContext.Current).CurrentLanguage = "en-GB";
         }
     }
 }

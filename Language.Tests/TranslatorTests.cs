@@ -56,7 +56,7 @@ namespace Language.Tests
         public void Given_an_welsh_language_pack_when_the_word_exists_I_expect_it_translated()
         {
             var lang = new Mock<ILanguage>();
-            lang.Setup(l => l.GetCurrentLanguage())
+            lang.Setup(l => l.CurrentLanguage)
                 .Returns("cy");
 
             var languagePacks = new Mock<ILanguagePackService>();

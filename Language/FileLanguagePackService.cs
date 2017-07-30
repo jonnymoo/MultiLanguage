@@ -8,6 +8,10 @@ using System.Web.Hosting;
 
 namespace Civica.C360.Language
 {
+    /// <summary>
+    /// Implementation of LanguagePackService which loads files of extension lang from the App_GlobalResources
+    /// directory of the webapplication.
+    /// </summary>
     public class FileLanguagePackService : ILanguagePackService
     {
         static Dictionary<string, Dictionary<string, string>> files = new Dictionary<string, Dictionary<string, string>>();
@@ -22,6 +26,12 @@ namespace Civica.C360.Language
                 files.Add(Path.GetFileName(file).Split('.')[0], lines.ToDictionary(x => x.Split('=')[0].Trim(), x => x.Substring(x.IndexOf("=")+1).Trim()));
             }
         }
+
+        /// <summary>
+        /// Return a dictionary of message keys and translations for a given language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
         public Dictionary<string, string> GetLanguagePack(string language)
         {
             if (files.ContainsKey(language))

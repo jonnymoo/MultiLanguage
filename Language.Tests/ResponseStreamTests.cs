@@ -19,9 +19,13 @@ namespace Language.Tests
 
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
+            var response = new Mock<IResponse>();
+
+            response.Setup(r => r.IsText).Returns(true);
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
             var translator = new Translator(lang.Object, languagePacks.Object);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("A test");
             responseStream.Write(testBytes, 0, testBytes.Length);
             responseStream.Flush();
@@ -43,8 +47,11 @@ namespace Language.Tests
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("A test");
             responseStream.Write(testBytes, 2, testBytes.Length-2);
             responseStream.Flush();
@@ -67,8 +74,12 @@ namespace Language.Tests
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("A test");
             responseStream.Write(testBytes, 0, testBytes.Length - 2);
             responseStream.Flush();
@@ -90,8 +101,12 @@ namespace Language.Tests
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("Some stuff %%Civica.Lang:TestArea.Some other stuff%% yet some more stuff");
             responseStream.Write(testBytes, 0, testBytes.Length);
             responseStream.Flush();
@@ -113,8 +128,11 @@ namespace Language.Tests
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("Some stuff %%Civica.Lang:TestArea.Some other stuff%% yet some more stuff %%Civica.Lang:TestArea.SubArea.A bit more%%");
             responseStream.Write(testBytes, 0, testBytes.Length);
             responseStream.Flush();
@@ -136,8 +154,11 @@ namespace Language.Tests
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("Some stuff %%Civica.Lang:TestArea.Some other stuff");
             responseStream.Write(testBytes, 0, testBytes.Length);
             responseStream.Flush();
@@ -159,8 +180,11 @@ namespace Language.Tests
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("Some stuff %%Civica.Lang:");
             responseStream.Write(testBytes, 0, testBytes.Length);
 
@@ -186,8 +210,11 @@ namespace Language.Tests
             var lang = new Mock<ILanguage>();
             var languagePacks = new Mock<ILanguagePackService>();
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("Some stuff %");
             responseStream.Write(testBytes, 0, testBytes.Length);
 
@@ -217,9 +244,11 @@ namespace Language.Tests
                 .Returns(new Dictionary<string, string>() { { "TestArea.Some other stuff", "translated" } });
  
             var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(true);
 
-
-            var responseStream = new ResponseStream(stream, Encoding.UTF8, translator);
+            var responseStream = new ResponseStream(stream, response.Object, translator);
             var testBytes = Encoding.UTF8.GetBytes("Some stuff %%Civica.Lang:TestArea.Some other stuff%% yet some more stuff");
             responseStream.Write(testBytes, 0, testBytes.Length);
             responseStream.Flush();
@@ -231,6 +260,35 @@ namespace Language.Tests
             stream.Read(output, 0, 41);
 
             Assert.AreEqual(Encoding.UTF8.GetString(output), "Some stuff translated yet some more stuff");
+        }
+
+        [TestMethod]
+        public void Given_a_stream_when_I_am_not_text_I_do_not_expect_to_attempt_translation()
+        {
+            var stream = new MemoryStream();
+
+            var lang = new Mock<ILanguage>();
+            var languagePacks = new Mock<ILanguagePackService>();
+            languagePacks.Setup(s => s.GetLanguagePack(It.IsAny<string>()))
+                .Returns(new Dictionary<string, string>() { { "TestArea.Some other stuff", "translated" } });
+
+            var translator = new Translator(lang.Object, languagePacks.Object);
+            var response = new Mock<IResponse>();
+            response.Setup(r => r.Encoding).Returns(Encoding.UTF8);
+            response.Setup(r => r.IsText).Returns(false);
+
+            var responseStream = new ResponseStream(stream, response.Object, translator);
+            var testBytes = Encoding.UTF8.GetBytes("Some stuff %%Civica.Lang:TestArea.Some other stuff%% yet some more stuff");
+            responseStream.Write(testBytes, 0, testBytes.Length);
+            responseStream.Flush();
+
+            stream.Position = 0;
+            Assert.AreEqual(stream.Length, 72);
+
+            var output = new Byte[72];
+            stream.Read(output, 0, 72);
+
+            Assert.AreEqual(Encoding.UTF8.GetString(output), "Some stuff %%Civica.Lang:TestArea.Some other stuff%% yet some more stuff");
         }
     }
 }

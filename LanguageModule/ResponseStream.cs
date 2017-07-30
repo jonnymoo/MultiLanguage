@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LanguageModule
 {
@@ -24,9 +25,9 @@ namespace LanguageModule
         private Stream Stream;
 
         /// <summary>
-        /// The encoding used (this is only used for text based strings)
+        /// The response
         /// </summary>
-        private Encoding Encoding;
+        private IResponse Response;
 
         /// <summary>
         /// Used to hold onto a retained bit of the last call to write if we thing it may contain a start tag and the key spans writes
@@ -43,16 +44,24 @@ namespace LanguageModule
         /// </summary>
         /// <param name="originalFilter">The underlying stream</param>
         /// <param name="encoding">The encoding of the text content</param>
-        public ResponseStream(Stream originalFilter, Encoding encoding, Translator translator)
+        public ResponseStream(Stream originalFilter, IResponse response, Translator translator)
         {
             this.Stream = originalFilter;
-            this.Encoding = encoding;
+            this.Response = response;
             this.Translator = translator;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            string requestBuffer = this.Retained + this.Encoding.GetString(buffer,offset,count);
+ 
+            if (!this.Response.IsText)
+            {
+                this.Stream.Write(buffer, offset, count);
+                return;
+            }
+
+ 
+            string requestBuffer = this.Retained + Response.Encoding.GetString(buffer,offset,count);
 
             this.Retained = string.Empty;
 
@@ -129,7 +138,7 @@ namespace LanguageModule
             }
 
 
-            var response = Encoding.GetBytes(ret.ToString());
+            var response = Response.Encoding.GetBytes(ret.ToString());
             this.Stream.Write(response, 0,response.Length);
 
         }
@@ -155,7 +164,7 @@ namespace LanguageModule
         public override void Flush()
         {
             // We may have some stuff left in the retained string 
-            var response = Encoding.GetBytes(this.Retained.ToString());
+            var response = Response.Encoding.GetBytes(this.Retained.ToString());
             this.Stream.Write(response, 0, response.Length);
 
             this.Stream.Flush();

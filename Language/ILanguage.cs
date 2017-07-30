@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace Civica.C360.Language
 {
+    /// <summary>
+    /// An interface for determining or changing the current language
+    /// </summary>
     public interface ILanguage
     {
-        string GetCurrentLanguage();
-        void ChangeLanguage(string language);
-
+        /// <summary>
+        /// Get the current language
+        /// </summary>
+        /// <returns></returns>
+        string CurrentLanguage { get; set; }
     }
 }

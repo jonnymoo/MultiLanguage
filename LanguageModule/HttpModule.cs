@@ -1,6 +1,7 @@
 ﻿using Civica.C360.Language;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,9 @@ namespace LanguageModule
                 if (app != null)
                 {
                     var requestContext = app.Context;
-                    if (requestContext != null && requestContext.Response.ContentType == "text/html")
+                    if (requestContext != null)
                     {
-                        requestContext.Response.Filter = new ResponseStream(requestContext.Response.Filter, requestContext.Response.ContentEncoding, new Translator(new Language(HttpContext.Current), new FileLanguagePackService()));
+                        requestContext.Response.Filter = new ResponseStream(requestContext.Response.Filter, new Response(requestContext), new Translator(new Language(HttpContext.Current), new FileLanguagePackService()));
                     }
                 }
             };

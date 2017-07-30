@@ -15,7 +15,7 @@
 
     <h2>Language</h2>
   
-    <%= new Civica.C360.Language.Language(HttpContext.Current).GetCurrentLanguage() %>
+    <%= new Civica.C360.Language.Language(HttpContext.Current).CurrentLanguage %>
     <br />
     
     <h2>Example of how to swap in text</h2>

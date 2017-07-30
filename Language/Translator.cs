@@ -13,7 +13,7 @@ namespace Civica.C360.Language
         private ILanguagePackService LangaugePackService;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="Traslator"/> class
+        /// Creates a new instance of the <see cref="Translator"/> class
         /// </summary>
         /// <param name="lang"></param>
         public Translator(ILanguage lang, ILanguagePackService languagePackService)
@@ -33,7 +33,7 @@ namespace Civica.C360.Language
 
             // Check if the word is in the languages langauge pack
 
-            var pack = LangaugePackService.GetLanguagePack(Lang.GetCurrentLanguage());
+            var pack = LangaugePackService.GetLanguagePack(Lang.CurrentLanguage);
 
             if(pack != null && pack.ContainsKey(key))
             {
